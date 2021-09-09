@@ -3,17 +3,12 @@ import axios from 'axios';
 axios.defaults.baseURL = '  http://localhost:4040';
 
 export const addContactsApi = ({ name, number, id }) => {
-  return (
-    axios
-      .post('/contacts', { name, number, id })
-      //  .post(contact, {
-      //    params: {},
-      //  })
-      .then(({ data }) => data)
-      .catch(err => {
-        throw err;
-      })
-  );
+  return axios
+    .post('/contacts', { name, number, id })
+    .then(({ data }) => data)
+    .catch(err => {
+      throw err;
+    });
 };
 
 export const getContactsApi = () => {
