@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
-import * as actions from '../../redux/actions';
-
+import { v1 as uuidv1 } from 'uuid';
+import { addContacts } from '../../redux/operations';
 import s from './ContactForm.module.css';
 
 function ContactForm() {
@@ -10,8 +10,11 @@ function ContactForm() {
   const dispatch = useDispatch();
 
   const items = useSelector(state => state.contacts.items);
+  const id = uuidv1();
 
-  const onSubmit = () => dispatch(actions.addContact({ name, number }));
+  const onSubmit = () => {
+    dispatch(addContacts({ name, number, id }));
+  };
 
   const handleChange = event => {
     const { name, value } = event.target;
@@ -35,7 +38,7 @@ function ContactForm() {
     };
     isContactExist(name)
       ? alert(`${name} is already in contacts.`)
-      : onSubmit();
+      : onSubmit(name, number);
 
     setName('');
     setNumber('');

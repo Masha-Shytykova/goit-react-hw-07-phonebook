@@ -3,9 +3,10 @@ import { createReducer } from '@reduxjs/toolkit';
 import * as actions from './actions';
 
 const itemsReducer = createReducer([], {
-  [actions.deleteContact]: (state, { payload }) =>
+  [actions.getContactsSuccess]: (_, { payload }) => payload,
+  [actions.addContactsSuccess]: (state, { payload }) => [...state, payload],
+  [actions.deleteContactsSuccess]: (state, { payload }) =>
     state.filter(contact => contact.id !== payload),
-  [actions.addContact]: (state, { payload }) => [...state, payload],
 });
 
 const filterReducer = createReducer('', {
@@ -15,6 +16,18 @@ const filterReducer = createReducer('', {
 const contactsReducer = combineReducers({
   items: itemsReducer,
   filter: filterReducer,
+});
+
+const setError = (_, { payload }) => payload;
+const resetError = () => null;
+
+export const errorReducer = createReducer(null, {
+  [actions.getContactsReguests]: resetError,
+  [actions.getContactsError]: setError,
+  [actions.addContactsReguests]: resetError,
+  [actions.addContactsError]: setError,
+  [actions.deleteContactsReguests]: resetError,
+  [actions.deleteContactsError]: setError,
 });
 
 export default contactsReducer;
